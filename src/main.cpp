@@ -62,7 +62,7 @@ char NumberLiterals[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 
 //This is a function to check if the certian parts of a string have a number
-bool * Check_For_Numbers(std::string Input, bool arr[])
+bool * Check_For_Numbers(std::string Input)
 {
     
     Lg.LoggingChar("Creating Is Number in Check_For_Numbers function with size of {Input.size}");
@@ -109,6 +109,7 @@ bool * Check_For_Numbers(std::string Input, bool arr[])
 
 }
 
+//This is to remove spaces within the inputed string so it makes things easier for me.
 std::string NoSpace(std::string IN)
 {
     std::string string = "";
@@ -117,7 +118,8 @@ std::string NoSpace(std::string IN)
     {
         if(IN[index] != ' ')
         {
-            string + IN[index];
+            string = string + IN[index];
+            
         }
         else
         {
@@ -148,17 +150,15 @@ int main()
 
     Lg.LoggingChar("getline inputed");
 
-    Final_Use = NoSpace(Input);
+    Input = NoSpace(Input);
 
-    std::cout << Final_Use;
-
-    bool Numb[Input.size()];
+    std::cout << Input;
 
     bool *IsNumber;
 
     Lg.LoggingChar("Is number initialized");
 
-    IsNumber = Check_For_Numbers(Input, Numb);
+    IsNumber = Check_For_Numbers(Input);
 
     Lg.LoggingChar("Check number is inputed to is number");
 
