@@ -137,13 +137,15 @@ bool Check_For_Operators(std::string instr)
 
 int main()
 {
-
+    //Initiates the string variable that obtains input from get line.
     std::string Input = "";
 
-    std::string Final_Use = "";
+    //std::string Final_Use = "";
 
-    std::string test = "This is a test";
 
+    //std::string test = "This is a test";
+
+    
     Lg.LoggingChar("Initialized the Input variable");
 
     getline(std::cin, Input);
@@ -152,7 +154,7 @@ int main()
 
     Input = NoSpace(Input);
 
-    std::cout << Input;
+    std::cout << "> " << Input << std::endl;
 
     bool *IsNumber;
 
