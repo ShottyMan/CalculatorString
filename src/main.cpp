@@ -1,5 +1,5 @@
 #include <iostream>
-#include <boost/algorithm/string.hpp>
+//#include <boost/algorithm/string.hpp>
 #include <string>
 
 //class used for logging certian things and to automatically disabling these things.
@@ -58,8 +58,9 @@ class Logger
 Logger Lg;
 
 //Number litterals that are required to check whether or not the numbers are numbers.
-char NumberLiterals[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+const char NumberLiterals[11] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'};
 
+const char OperatorLiterals[4] = {'+', '/', '*', '-'};
 
 //This is a function to check if the certian parts of a string have a number
 bool * Check_For_Numbers(std::string Input)
@@ -80,7 +81,7 @@ bool * Check_For_Numbers(std::string Input)
 
 
 
-        for (int t = 0; t < 10; t++)
+        for (int t = 0; t < sizeof(NumberLiterals); t++)
         {
 
 
@@ -109,6 +110,24 @@ bool * Check_For_Numbers(std::string Input)
 
 }
 
+
+std::string Grouper(std::string InString, bool* IsNumb)
+{   
+    int Groups = 0;
+    int i = 0;
+    
+    for (i < InString.size(); i++;)
+    {
+        if (*(IsNumb+i) != true)
+        {
+            Groups = Groups + 2;
+        }
+    }
+    std::cout << Groups;
+
+    return "test";
+}
+
 //This is to remove spaces within the inputed string so it makes things easier for me.
 std::string NoSpace(std::string IN)
 {
@@ -130,9 +149,27 @@ std::string NoSpace(std::string IN)
     return string;
 }
 
-bool Check_For_Operators(std::string instr)
+bool * Check_For_Operators(std::string instr)
 {
-    return 0;
+    bool* IsOperator = new bool[instr.size()];
+
+    for (int i = 0; i < instr.size(); i++)
+    {
+        for (int j = 0; j < sizeof(OperatorLiterals); j++)
+        {
+            if(instr[i] == OperatorLiterals[j])
+            {
+                IsOperator[i] = true;
+                break;
+            }
+            else
+            {
+                IsOperator[i] = false;
+            }
+        }
+    }
+
+    return IsOperator;
 }
 
 int main()
@@ -158,20 +195,36 @@ int main()
 
     bool *IsNumber;
 
+    bool *IsOperator;
+
     Lg.LoggingChar("Is number initialized");
 
     IsNumber = Check_For_Numbers(Input);
 
+    IsOperator = Check_For_Operators(Input);
+
+    std::string test = Grouper(Input, IsNumber);
+
     Lg.LoggingChar("Check number is inputed to is number");
 
-   /*for (int terms = 0; terms < Input.size(); terms++)
-   {
+    std::cout << "> ";
+
+    for (int terms = 0; terms < Input.size(); terms++)
+    {
        std::cout << *(IsNumber+terms);
-   }*/
+    }
    
-   std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "> ";
+
+    for (int terms = 0; terms < Input.size(); terms++)
+    {
+        std::cout << *(IsOperator+terms);
+    }
 
 
+    std::cout << std::endl;
 
 
 }
