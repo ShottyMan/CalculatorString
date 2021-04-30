@@ -113,20 +113,27 @@ bool * Check_For_Numbers(std::string Input)
 
 std::string Grouper(std::string InString, bool* IsNumb)
 {   
+    Lg.LoggingChar("Beginning Grouper Function and initializing integers");
     int Groups = 0;
     int i = 0;
     
+    Lg.LoggingChar("Initializing the loop");
     for (i < InString.size(); i++;)
     {
-        if (*(IsNumb+i) != true)
+        Lg.LoggingChar("Initialzes the nested loop");
+        if (*(IsNumb+i) != 0)
         {
+            Lg.LoggingChar("Adding to groups var");
             Groups = Groups + 2;
         }
     }
-    std::cout << Groups;
+    std::cout << "> " << Groups << " Is Numb is: " << *IsNumb << std::endl;
 
     return "test";
 }
+
+
+
 
 //This is to remove spaces within the inputed string so it makes things easier for me.
 std::string NoSpace(std::string IN)
@@ -148,6 +155,9 @@ std::string NoSpace(std::string IN)
 
     return string;
 }
+
+
+
 
 bool * Check_For_Operators(std::string instr)
 {
@@ -171,6 +181,9 @@ bool * Check_For_Operators(std::string instr)
 
     return IsOperator;
 }
+
+
+
 
 int main()
 {
