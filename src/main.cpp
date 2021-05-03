@@ -116,11 +116,17 @@ std::string Grouper(std::string InString, bool* IsNumb)
     Lg.LoggingChar("Beginning Grouper Function and initializing integers");
     int Groups = 0;
     
+    
     Lg.LoggingChar("Initializing the loop");
     for (int i = 0; i < InString.size(); i++)
     {
+        
         Lg.LoggingChar("Initialzes the nested loop");
-        if (*(IsNumb+i) != 1)
+        if(i == InString.size())
+        {
+            Groups = Groups + 2; 
+        }
+        else if (*(IsNumb+i) != 1 && i != InString.size())
         {
             Lg.LoggingChar("Adding to groups var");
             Groups = Groups + 2;
