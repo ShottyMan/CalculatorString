@@ -111,10 +111,12 @@ bool * Check_For_Numbers(std::string Input)
 }
 
 
-std::string Grouper(std::string InString, bool* IsNumb)
+std::string* Grouper(std::string InString, bool* IsNumb)
 {   
     Lg.LoggingChar("Beginning Grouper Function and initializing integers");
     int Groups = 0;
+
+    int static times = 0;
     
     
     Lg.LoggingChar("Initializing the loop");
@@ -122,19 +124,85 @@ std::string Grouper(std::string InString, bool* IsNumb)
     {
         
         Lg.LoggingChar("Initialzes the nested loop");
-        if(i == InString.size())
+
+
+        if(i == (InString.size() - 1))
         {
+            Lg.LoggingChar("End of string adding 2 more groups.");
+            std::cout << "> Index is: " << i << std::endl;
             Groups = Groups + 2; 
         }
-        else if (*(IsNumb+i) != 1 && i != InString.size())
+
+
+        else if (*(IsNumb+i) != 1 && i != (InString.size() - 1))
         {
+
+
             Lg.LoggingChar("Adding to groups var");
-            Groups = Groups + 2;
+            std::cout << "> Index is: " << i << std::endl;
+            if(*(IsNumb+i) == *(IsNumb+(i+1)))
+            {
+                Groups = Groups + 3;
+                i = i + 1;
+            }
+
+
+
+            else
+            {
+                Groups = Groups + 2;
+            }
+            
+          
+        }
+
+
+        else
+        {
+
+            Lg.LoggingChar("Condition Not met");
+            
+            std::cout << "> Index is: " << i <<std::endl;
+            
+        }
+        
+    }
+
+    std::string* Index = new std::string[Groups];
+    for (int stringindex = 0; stringindex < Groups; stringindex++)
+    {
+        static int Starter = 0;
+
+        for (int i = 0; i < InString.size(); i++)
+        {
+            //Tells where to start the loop to add to array.
+            
+
+            if(i == (InString.size() - 1) && *(IsNumb+i) != 1)
+            {
+            
+            }
+        
+            else if (*(IsNumb+i) != 1 && i != (InString.size() - 1))
+            {
+
+                for (int x = Starter; x < i; x++)
+                {
+
+                    *(Index+stringindex) = *(Index+stringindex) + InString[x];
+
+                }
+
+                
+
+            }
+        
         }
     }
-    std::cout << "> " << Groups << " Is Numb is: " << *IsNumb << std::endl;
 
-    return "test";
+    std::cout << "> " << "Groups are: " << Groups << " Is Numb is: " << *IsNumb << std::endl;
+
+    return Index;
 }
 
 
@@ -208,6 +276,8 @@ int main()
     Lg.LoggingChar("getline inputed");
 
     Input = NoSpace(Input);
+
+    std::cout << "> Input size is: " << Input.size() << std::endl;
 
     std::cout << "> " << Input << std::endl;
 
