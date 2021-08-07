@@ -2,6 +2,9 @@
 //#include <boost/algorithm/string.hpp>
 #include <string>
 
+//rewrite to true to turn on debbugger.
+bool Debug = true;
+
 //class used for logging certian things and to automatically disabling these things.
 class Logger
 {
@@ -110,8 +113,8 @@ bool * Check_For_Numbers(std::string Input)
 
 }
 
-
-std::string* Grouper(std::string InString, bool* IsNumb)
+//This grouper function counts the groups and groups the numbers and expressions accordingly.
+std::string* Grouper(std::string InString, bool* IsNumb, bool* IsOperator, int &ArraySize)
 {   
     Lg.LoggingChar("Beginning Grouper Function and initializing integers");
     int Groups = 0;
@@ -120,6 +123,8 @@ std::string* Grouper(std::string InString, bool* IsNumb)
     
     
     Lg.LoggingChar("Initializing the loop");
+
+    //This is where the counting for the groups is done.
     for (int i = 0; i < InString.size(); i++)
     {
         
@@ -128,9 +133,9 @@ std::string* Grouper(std::string InString, bool* IsNumb)
 
         if(i == (InString.size() - 1))
         {
-            Lg.LoggingChar("End of string adding 2 more groups.");
+            Lg.LoggingChar("End of string adding 1 more groups.");
             std::cout << "> Index is: " << i << std::endl;
-            Groups = Groups + 2; 
+            Groups = Groups + 1; 
         }
 
 
@@ -169,18 +174,33 @@ std::string* Grouper(std::string InString, bool* IsNumb)
     }
 
     std::string* Index = new std::string[Groups];
+
+    ArraySize = Groups;
+
+    //This is where the groups will actually be made.
     for (int stringindex = 0; stringindex < Groups; stringindex++)
     {
+        Lg.LoggingChar("Intializing the Second loop for indexing of the groups.");
         static int Starter = 0;
 
-        for (int i = 0; i < InString.size(); i++)
+        for (int i = Starter; i < InString.size(); i++)
         {
+            Lg.LoggingChar("Starting nested loop for the indexing of the groups.");
             //Tells where to start the loop to add to array.
             
 
-            if(i == (InString.size() - 1) && *(IsNumb+i) != 1)
+            if(i == (InString.size() - 1))
             {
-            
+                for (int x = Starter; x <= i; x++)
+                {
+
+                    *(Index+stringindex) = *(Index+stringindex) +InString[x];
+                    if (Debug == true)
+                    {
+                        std::cout << "> " << InString[x] << std::endl;
+                    }
+                }
+                break;
             }
         
             else if (*(IsNumb+i) != 1 && i != (InString.size() - 1))
@@ -190,11 +210,20 @@ std::string* Grouper(std::string InString, bool* IsNumb)
                 {
 
                     *(Index+stringindex) = *(Index+stringindex) + InString[x];
+                    if (Debug == true)
+                    {
+                        std::cout << "> " << InString[x] << std::endl;
+                    }
 
                 }
 
-                
+                *(Index+stringindex+1) = *(Index+stringindex+1) + InString[i];
 
+                Starter = i + 1;
+                
+                stringindex = stringindex+1;
+
+                break;
             }
         
         }
@@ -231,7 +260,7 @@ std::string NoSpace(std::string IN)
 
 
 
-
+//This part checks for the operators withint he expression being inputed in. 
 bool * Check_For_Operators(std::string instr)
 {
     bool* IsOperator = new bool[instr.size()];
@@ -260,11 +289,15 @@ bool * Check_For_Operators(std::string instr)
 
 int main()
 {
+
+    
+
     //Initiates the string variable that obtains input from get line.
     std::string Input = "";
 
     //std::string Final_Use = "";
 
+    int ArraySize = 0;
 
     //std::string test = "This is a test";
 
@@ -291,7 +324,16 @@ int main()
 
     IsOperator = Check_For_Operators(Input);
 
-    std::string test = Grouper(Input, IsNumber);
+    std::string* test = Grouper(Input, IsNumber, IsOperator,ArraySize);
+
+    if (Debug == true)
+    {
+        for (int terms = 0; terms < ArraySize; terms++)
+        {
+            std::cout << "> ";
+            std::cout << *(test+terms) << std::endl;
+        }
+    }
 
     Lg.LoggingChar("Check number is inputed to is number");
 
