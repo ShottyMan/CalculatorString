@@ -16,13 +16,22 @@ class Logger
 
 
     //Gets a char array and outputs it into the terminal also ending the line
-    void LoggingChar(const char* Lin)
+    void LoggingChar(const char* Lin, char option)
     {
 
 
-        if(log == true)
+        if(log == true && option == 'n')
         {
+
         std::cout << "> " << Lin << std::endl;
+
+        }
+
+        if(log == true && option == 'l')
+        {
+
+            std::cout << "> " << Lin;
+
         }
 
 
@@ -35,10 +44,7 @@ class Logger
     }
 
     //Same as LoggingChar but doesn't end the line technically not done yet
-    void LoggingCharL(const char* Lin)
-    {
-        std::cout << "> " << Lin;
-    }
+    
 
     
     //This is supposed to log a array specifically a bool array not tested yet..
@@ -50,7 +56,7 @@ class Logger
         }
     }
     //Changes whether or not the logging is enabled or not.
-    void TrueOrFalse(bool boolin)
+    void SetLog(bool boolin)
     {
         log = boolin;
     }
@@ -66,19 +72,19 @@ const char NumberLiterals[11] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9
 const char OperatorLiterals[4] = {'+', '/', '*', '-'};
 
 //This is a function to check if the certian parts of a string have a number
-bool * Check_For_Numbers(std::string Input)
+bool * CheckForNumbers(std::string Input)
 {
     
-    Lg.LoggingChar("Creating Is Number in Check_For_Numbers function with size of {Input.size}");
+    Lg.LoggingChar("Creating Is Number in Check_For_Numbers function with size of {Input.size}", 'n');
     bool* IsNumber = new bool[Input.size()];
 
-    Lg.LoggingChar("Initializing IsNumber within Check for numbers");
+    Lg.LoggingChar("Initializing IsNumber within Check for numbers", 'n');
     for (int t = 0; t < Input.size(); t++)
     {
         IsNumber[t] = 0;
     }
 
-    Lg.LoggingChar("Starting Checking of Integers.");
+    Lg.LoggingChar("Starting Checking of Integers.", 'n');
     for (int i = 0; i < Input.size(); i++)
     {
 
@@ -114,26 +120,26 @@ bool * Check_For_Numbers(std::string Input)
 }
 
 //This grouper function counts the groups and groups the numbers and expressions accordingly.
-std::string* Grouper(std::string InString, bool* IsNumb, bool* IsOperator, int &ArraySize)
+std::string* InputItemGrouper(std::string InString, bool* IsNumb, bool* IsOperator, int &ArraySize)
 {   
-    Lg.LoggingChar("Beginning Grouper Function and initializing integers");
+    Lg.LoggingChar("Beginning Grouper Function and initializing integers", 'n');
     int Groups = 0;
 
     int static times = 0;
     
     
-    Lg.LoggingChar("Initializing the loop");
+    Lg.LoggingChar("Initializing the loop", 'n');
 
     //This is where the counting for the groups is done.
     for (int i = 0; i < InString.size(); i++)
     {
         
-        Lg.LoggingChar("Initialzes the nested loop");
+        Lg.LoggingChar("Initialzes the nested loop", 'n');
 
 
         if(i == (InString.size() - 1))
         {
-            Lg.LoggingChar("End of string adding 1 more groups.");
+            Lg.LoggingChar("End of string adding 1 more groups.", 'n');
             std::cout << "> Index is: " << i << std::endl;
             Groups = Groups + 1; 
         }
@@ -143,7 +149,7 @@ std::string* Grouper(std::string InString, bool* IsNumb, bool* IsOperator, int &
         {
 
 
-            Lg.LoggingChar("Adding to groups var");
+            Lg.LoggingChar("Adding to groups var", 'n');
             std::cout << "> Index is: " << i << std::endl;
             if(*(IsNumb+i) == *(IsNumb+(i+1)))
             {
@@ -165,7 +171,7 @@ std::string* Grouper(std::string InString, bool* IsNumb, bool* IsOperator, int &
         else
         {
 
-            Lg.LoggingChar("Condition Not met");
+            Lg.LoggingChar("Condition Not met", 'n');
             
             std::cout << "> Index is: " << i <<std::endl;
             
@@ -180,12 +186,12 @@ std::string* Grouper(std::string InString, bool* IsNumb, bool* IsOperator, int &
     //This is where the groups will actually be made.
     for (int stringindex = 0; stringindex < Groups; stringindex++)
     {
-        Lg.LoggingChar("Intializing the Second loop for indexing of the groups.");
+        Lg.LoggingChar("Intializing the Second loop for indexing of the groups.", 'n');
         static int Starter = 0;
 
         for (int i = Starter; i < InString.size(); i++)
         {
-            Lg.LoggingChar("Starting nested loop for the indexing of the groups.");
+            Lg.LoggingChar("Starting nested loop for the indexing of the groups.", 'n');
             //Tells where to start the loop to add to array.
             
 
@@ -238,7 +244,7 @@ std::string* Grouper(std::string InString, bool* IsNumb, bool* IsOperator, int &
 
 
 //This is to remove spaces within the inputed string so it makes things easier for me.
-std::string NoSpace(std::string IN)
+std::string SpaceRemover(std::string IN)
 {
     std::string string = "";
 
@@ -251,7 +257,7 @@ std::string NoSpace(std::string IN)
         }
         else
         {
-            Lg.LoggingChar("There is a Space");
+            Lg.LoggingChar("There is a Space", 'n');
         }
     }
 
@@ -261,7 +267,7 @@ std::string NoSpace(std::string IN)
 
 
 //This part checks for the operators withint he expression being inputed in. 
-bool * Check_For_Operators(std::string instr)
+bool * CheckForOperators(std::string instr)
 {
     bool* IsOperator = new bool[instr.size()];
 
@@ -302,13 +308,13 @@ int main()
     //std::string test = "This is a test";
 
     
-    Lg.LoggingChar("Initialized the Input variable");
+    Lg.LoggingChar("Initialized the Input variable", 'n');
 
     getline(std::cin, Input);
 
-    Lg.LoggingChar("getline inputed");
+    Lg.LoggingChar("getline inputed", 'n');
 
-    Input = NoSpace(Input);
+    Input = SpaceRemover(Input);
 
     std::cout << "> Input size is: " << Input.size() << std::endl;
 
@@ -318,24 +324,24 @@ int main()
 
     bool *IsOperator;
 
-    Lg.LoggingChar("Is number initialized");
+    Lg.LoggingChar("Is number initialized", 'n');
 
-    IsNumber = Check_For_Numbers(Input);
+    IsNumber = CheckForNumbers(Input);
 
-    IsOperator = Check_For_Operators(Input);
+    IsOperator = CheckForOperators(Input);
 
-    std::string* test = Grouper(Input, IsNumber, IsOperator,ArraySize);
+    std::string* GroupedItems = InputItemGrouper(Input, IsNumber, IsOperator,ArraySize);
 
     if (Debug == true)
     {
         for (int terms = 0; terms < ArraySize; terms++)
         {
             std::cout << "> ";
-            std::cout << *(test+terms) << std::endl;
+            std::cout << *(GroupedItems+terms) << std::endl;
         }
     }
 
-    Lg.LoggingChar("Check number is inputed to is number");
+    Lg.LoggingChar("Check number is inputed to is number", 'n');
 
     std::cout << "> ";
 
@@ -355,6 +361,12 @@ int main()
 
 
     std::cout << std::endl;
+
+    delete IsNumber;
+
+    delete IsOperator;
+
+    delete GroupedItems;
 
 
 }
