@@ -1,6 +1,7 @@
 #include <iostream>
 //#include <boost/algorithm/string.hpp>
 #include <string>
+#include <sstream>
 
 //rewrite to true to turn on debbugger.
 bool Debug = true;
@@ -359,14 +360,44 @@ int main()
         std::cout << *(IsOperator+terms);
     }
 
-
     std::cout << std::endl;
+
+
+    int StepsNumbers = (.5 * ArraySize)-.5;
+
+
+    //Terms within a function can be found with the equation terms = (1/2*x)-.5 with x being the amount of operators and numbers.
+
+
+    double CalculationResults[StepsNumbers];
+
+
+    //This is where all of the addition should take place.
+
+    
+    {
+        
+
+        for (int CurrentLoopIndex = 0; CurrentLoopIndex < ArraySize; CurrentLoopIndex++)
+        {
+            //Addition Part
+            if (*(GroupedItems+CurrentLoopIndex) == "+")
+            {
+                
+                std::stringstream SS;
+
+                SS >> *(GroupedItems+CurrentLoopIndex-1);
+
+            }
+        }
+    }
 
     delete IsNumber;
 
     delete IsOperator;
 
-    delete GroupedItems;
+    delete[] GroupedItems;
+    
 
 
 }
