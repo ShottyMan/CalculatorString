@@ -344,53 +344,99 @@ int main()
 
     Lg.LoggingChar("Check number is inputed to is number", 'n');
 
-    std::cout << "> ";
+    
 
-    for (int terms = 0; terms < Input.size(); terms++)
+    /*for (int terms = 0; terms < Input.size(); terms++)
     {
        std::cout << *(IsNumber+terms);
-    }
+    }*/
    
-    std::cout << std::endl;
+    
 
-    std::cout << "> ";
+    
 
-    for (int terms = 0; terms < Input.size(); terms++)
+    /*for (int terms = 0; terms < Input.size(); terms++)
     {
         std::cout << *(IsOperator+terms);
-    }
+    }*/
+    
 
-    std::cout << std::endl;
 
 
     int StepsNumbers = (.5 * ArraySize)-.5;
-
 
     //Terms within a function can be found with the equation terms = (1/2*x)-.5 with x being the amount of operators and numbers.
 
 
     double CalculationResults[StepsNumbers];
 
+    int CurrentStep = 0;
 
-    //This is where all of the addition should take place.
+    //This is where all of the addition and subtraction should take place.
 
-    
+    for (int CurrentLoopIndex = 0; CurrentLoopIndex <= ArraySize; CurrentLoopIndex++)
     {
-        
 
-        for (int CurrentLoopIndex = 0; CurrentLoopIndex < ArraySize; CurrentLoopIndex++)
+
+        //Addition Part
+        if (*(GroupedItems+CurrentLoopIndex) == "+" && CurrentLoopIndex == ((ArraySize-ArraySize)+1))
         {
-            //Addition Part
-            if (*(GroupedItems+CurrentLoopIndex) == "+")
-            {
-                
-                std::stringstream SS;
 
-                SS >> *(GroupedItems+CurrentLoopIndex-1);
+            float FirstAdditionTerm = std::stof(*(GroupedItems+CurrentLoopIndex-1));
 
-            }
+            float SecondAdditionTerm = std::stof(*(GroupedItems+CurrentLoopIndex+1));
+
+            CalculationResults[CurrentStep] = FirstAdditionTerm + SecondAdditionTerm;
+            CurrentStep = CurrentStep + 1;
+
         }
+
+        else if (*(GroupedItems+CurrentLoopIndex) == "+" && CurrentLoopIndex != ArraySize)
+        {
+
+            float NextTermAdded = std::stof(*(GroupedItems+CurrentLoopIndex+1));
+
+            CalculationResults[CurrentStep] = CalculationResults[CurrentStep-1] + NextTermAdded;
+
+            CurrentStep++; 
+
+        }
+
+        else if (*(GroupedItems+CurrentLoopIndex) == "-" && CurrentLoopIndex == ((ArraySize-ArraySize)+1))
+        {
+
+            float FirstSubtractionTerm = std::stof(*(GroupedItems+CurrentLoopIndex-1));
+
+            float SecondSubtractionTerm = std::stof(*(GroupedItems+CurrentLoopIndex+1));
+
+            CalculationResults[CurrentStep] = FirstSubtractionTerm - SecondSubtractionTerm;
+            CurrentStep = CurrentStep + 1;
+
+        }
+
+        else if (*(GroupedItems+CurrentLoopIndex) == "-" && CurrentLoopIndex != ArraySize)
+        {
+
+            float NextTermSubtracted = std::stof(*(GroupedItems+CurrentLoopIndex+1));
+
+            CalculationResults[CurrentStep] = CalculationResults[CurrentStep-1] - NextTermSubtracted;
+
+            CurrentStep++; 
+
+        }
+
+        else
+        {
+            
+        }
+
+
     }
+    
+
+    std::cout << "\nThis Result should be printed\n";
+
+    std::cout << "The calculation result is: " << CalculationResults[StepsNumbers-1] << std::endl;
 
     delete IsNumber;
 
